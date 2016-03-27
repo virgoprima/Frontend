@@ -1,3 +1,4 @@
+@import url (grid.css);
 body {background: #f1eeea;
 }
 	h1 {font-size: 200%; font-family: Arial, Verdana, sans-serif; color: #97233f; 
@@ -75,6 +76,12 @@ a {
     text-decoration: none; /* Не добавляем подчеркивание */
    }
 
+.footer{
+    background: #172;
+    color: #FFFFFF;
+    position: relative;
+    height: 100%;
+}
 
 
 
