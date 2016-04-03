@@ -1,0 +1,163 @@
+@media screen and (max-width: 599px) {
+    
+    .menu {
+    background: #2980b9; 
+    list-style-type: none; 
+    width: 60%;
+    margin: 0; 
+    padding: 0;
+    border: solid #2980b9;
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+ }
+ 
+.menu ul {
+    list-style-type: none;
+    margin: 0; 
+    padding: 0; 
+}
+
+.menu li {
+    padding: 0.1 1rem;
+    margin: -0.1rem 0;
+}
+.menu > li {
+  position: relative; 
+  background: #2980b9; 
+ 
+}
+
+.menu > li:hover {
+background: #2980b9;
+}
+.menu > li > a{
+  color: #fff;
+  text-decoration:none;
+   
+}
+
+
+  .menu li ul {
+    position: absolute; 
+    display: none; 
+    top: 0.1rem; 
+    left: 25rem;
+    margin: -2rem 0 0;
+   }
+
+ .menu li:hover ul {
+   display: block;
+   position: relative; 
+   }
+
+.menu li ul li {
+  text-align: left;
+  padding: 0 0 0 1rem;
+  
+  
+}
+
+.menu ul li li:hover > a {
+    color: #d35400;
+}
+
+.menu li ul li a{
+  font-size:14px;
+  color:#fff;
+  text-decoration:none;
+}
+
+
+}
+
+/*.menu {
+   float: left;
+   width: 70%;
+   background: rgba(155, 89, 182,1.0);
+   background: url(<i class="fa fa-bars"></i>) center no-repeat 
+}
+
+.menu li {
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.menu a {
+    color: #ecf0f1;
+    display: block;
+    padding:  2rem;
+    text-decoration: none;
+    line-height: 2rem;
+}
+.menu li:hover {
+    display: block;
+    position: relative;
+   
+}
+
+
+.menu li ul {
+        background: rgba(52, 152, 219,0);
+    	left: -999em;
+    	margin: 0 auto;
+        padding: 2rem;
+    	position: absolute;
+    	width: 16rem;
+    	z-index: 9999;
+}
+
+.menu ul li a:hover,
+.menu ul li:hover > a {
+    	color: #f1eeea;
+    	background:rgba(52, 152, 219,0);
+}
+
+
+.menu ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+
+.menu ul li {
+	float:left;
+}
+
+.menu ul li a {
+   	float: left;
+	color:#fff;
+    padding: 0;
+	text-decoration:none;
+}
+
+.menu li ul a:hover, 
+.menu ul li li:hover > a  {
+    color: rgba(211, 84, 0,1.0);
+    display: block;
+    position: relative;
+  	
+	
+}
+
+
+
+
+
+.menu li a {
+   
+}
+
+
+
+
+} */
+
+@media only screen and (min-width: 600px) and (max-width: 1199px) {
+    
+}
+ 
+@media only screen and (min-width: 1200px) {
+    
+}
+

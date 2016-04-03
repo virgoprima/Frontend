@@ -1,9 +1,11 @@
-* {
- box-sizing: border-box;   
+.row {
+    padding: 0 1rem;
 }
-.row {}
 
-.row:after{
+.row .row {
+    margin: 0 -1rem;
+}
+.row:after {
     display: block;
     content: ".";
     clear: both;
@@ -11,12 +13,54 @@
     visibility: hidden;
 }
 
-
 [class*=col-] {
+    box-sizing: border-box;
     float: left;
-    padding: 0 10px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    
 }
-.col-1 {width: 8.33333333333% ;}
+    
+    /* при ширине экрана до 599px каждая колонка будет отображаться на 100% экрана*/
+
+@media only screen and (max-width: 599px) {
+    [class*=col-] {
+        width: 100%;
+    }
+} 
+ 
+@media only screen and (min-width: 600px) and (max-width: 1199px) {
+    .col-md-1  { width: 8.33333333333%;}
+    .col-md-2  { width: 16.6666666667%;} 
+    .col-md-3  { width: 25%;} 
+    .col-md-4  { width: 33.3333333333%;} 
+    .col-md-5  { width: 41.6666666667%;} 
+    .col-md-6  { width: 50%;} 
+    .col-md-7  { width: 58.3333333333%;} 
+    .col-md-8  { width: 66.6666666667%;} 
+    .col-md-9  { width: 75%;} 
+    .col-md-10 { width: 83.3333333333%;} 
+    .col-md-11 { width: 91.6666666667%;} 
+    .col-md-12 { width: 100%;}
+}
+ 
+@media only screen and (min-width: 1200px) {
+    .col-lg-1  { width: 8.33333333333%;}
+    .col-lg-2  { width: 16.6666666667%;} 
+    .col-lg-3  { width: 25%;} 
+    .col-lg-4  { width: 33.3333333333%;} 
+    .col-lg-5  { width: 41.6666666667%;} 
+    .col-lg-6  { width: 50%;} 
+    .col-lg-7  { width: 58.3333333333%;} 
+    .col-lg-8  { width: 66.6666666667%;} 
+    .col-lg-9  { width: 75%;} 
+    .col-lg-10 { width: 83.3333333333%;} 
+    .col-lg-11 { width: 91.6666666667%;} 
+    .col-lg-12 { width: 100%;}
+}
+
+
+/*.col-1 {width: 8.33333333333% ;}
 .col-2 {width: 16.6666666667% ;}
 .col-3 {width: 25% ;}
 .col-4 {width: 33.3333333333% ;}
@@ -40,7 +84,4 @@
 .offset-9 {margin-left: 75% ;}
 .offset-10 {margin-left: 83.3333333333% ;}
 .offset-11 {margin-left: 91.6666666667% ;}
-.offset-12 {margin-left: 100% ;}
-
-.footer {width: 100 ;}
-
+.offset-12 {margin-left: 100% ;} */

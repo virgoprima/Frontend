@@ -1,0 +1,19 @@
+.hidden {
+	display: none;
+}
+.visible {
+	display: block;
+}
+
+a {
+	color: white;
+}
+
+.copyright {
+	padding-top: 10;
+	text-align: center;
+}
+
+.centered {
+	text-align: center;
+}

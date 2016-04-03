@@ -1,0 +1,22 @@
+{
+  "name": "www",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "virgoprima <tatiana.nosaeva@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/virgoprima/Frontend",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize-css": "normalize.css#^4.0.0",
+    "font-awesome": "Font-Awesome#^4.5.0"
+  }
+}

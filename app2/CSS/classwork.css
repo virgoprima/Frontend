@@ -1,0 +1,104 @@
+@import url(gridclasswork.css);
+
+.form-row {
+   
+   margin-bottom: 20px; 
+}
+
+.form-row label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    
+}
+
+.form-row .form-input input,
+.form-row .form-input textarea
+
+ {
+    border: 1px solid #999;
+    padding: 5px;
+    width: 100%;
+}
+
+.form-row .form-button-group {
+    
+}
+
+.menu,
+.menu ul
+ {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: #eee;
+    overflow: hidden;
+    
+}
+
+
+.menu li {
+    position: relative;
+    background: #eee;
+    
+}
+
+.menu li:hover {
+    background: #999;
+    
+    
+}
+.menu > li {
+    
+    float: left;
+    
+    
+    
+}
+
+.menu a {
+    
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    
+}
+
+.menu ul {
+    
+    position: absolute;
+    z-index: 9999;
+    width: 250px;
+    display: none;
+}
+
+.overlay {
+    
+    background: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    text-align: center;
+    
+}
+
+.modal-window {
+    background: #fff;
+    width: 60%;
+    padding: 3%;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: left;
+    
+}
+
+.va-helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    
+    
+}

@@ -1,0 +1,88 @@
+
+body {background: #f1eeea;
+}
+	h1 {font-size: 200%; font-family: Arial, Verdana, sans-serif; color: #97233f; 
+}
+		h2 {font-size: 120%; font-family: Arial, Verdana, sans-serif; color: #97233f; font-style: italic; /* Курсивное начертание */
+}
+			h4 {font-size: 100%; font-family: Arial, Verdana, sans-serif; color: #000000;
+}
+				label {font-size: 85%; font-family: Arial, Verdana, sans-serif; color: #000000; font-style: italic; /* Курсивное начертание */
+}
+.test {font-size: 85%; font-family: Arial, Verdana, sans-serif; color: #000000; font-style: italic; /* Курсивное начертание */
+}
+
+FIELDSET {
+border: solid 1px #8c179;
+-moz-border-radius: 20px;
+-webkit-border-radius: 20px;
+border-radius: 20px;
+padding: 1em 2em;
+margin: 1em 0em;
+}	
+
+INPUT.text {
+border: solid 1px #8c179;
+-moz-border-radius: 20px;
+-webkit-border-radius: 20px;
+border-radius: 20px;
+padding: 1em 2em;
+margin: 1em 0em;
+   }
+
+INPUT.text:focus {
+border: 2px solid #97233f; /* Рамка при получении фокуса */
+-moz-border-radius: 20px;
+-webkit-border-radius: 20px;
+border-radius: 20px;
+padding: 1em 2em;
+margin: 1em 0em;
+   }
+
+TEXTAREA.text {
+border: solid 1px #8c179;
+-moz-border-radius: 20px;
+-webkit-border-radius: 20px;
+border-radius: 20px;
+padding: 1em 2em;
+margin: 1em 0em;
+   }
+
+TEXTAREA.text:focus {
+border: 2px solid #97233f; /* Рамка при получении фокуса */
+   }
+
+BUTTON.new {
+   background: -moz-linear-gradient(#97233f, #FFFFFF);
+   background: -webkit-gradient(linear, 0 0, 0  100%, from(#FFFFFF), to(#97233f), color-stop(0.3, #97233f));
+   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#97233f', endColorstr='#FFFFFF');
+   padding: 5px 10px;
+   color: #000000;
+   -moz-border-radius: 20px;
+   -webkit-border-radius: 20px;
+   border-radius: 20px;
+   border: 1px solid #97233f;
+  }
+
+a {
+    color: #000; /* Цвет обычной ссылки */ 
+    text-decoration: none; /* Убираем подчеркивание у ссылок */
+   }
+   a:visited {
+    color: #97233f; /* Цвет посещённой ссылки */
+   } 
+   a:hover {
+    color: #172; /* Цвет ссылки при наведении на нее курсора мыши */  
+    text-decoration: none; /* Не добавляем подчеркивание */
+   }
+
+.footer{
+    background: #172;
+    color: #FFFFFF;
+    position: relative;
+    height: 100%;
+}
+
+
+
+

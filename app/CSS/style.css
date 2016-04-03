@@ -1,88 +1,91 @@
-@import url (grid.css);
-body {background: #f1eeea;
-}
-	h1 {font-size: 200%; font-family: Arial, Verdana, sans-serif; color: #97233f; 
-}
-		h2 {font-size: 120%; font-family: Arial, Verdana, sans-serif; color: #97233f; font-style: italic; /* Курсивное начертание */
-}
-			h4 {font-size: 100%; font-family: Arial, Verdana, sans-serif; color: #000000;
-}
-				label {font-size: 85%; font-family: Arial, Verdana, sans-serif; color: #000000; font-style: italic; /* Курсивное начертание */
-}
-.test {font-size: 85%; font-family: Arial, Verdana, sans-serif; color: #000000; font-style: italic; /* Курсивное начертание */
+@import url(grid.css);
+@import url(menu-media.css);
+@import url(menu.css);
+
+html {
+    font-size: 10px;
 }
 
-FIELDSET {
-border: solid 1px #8c179;
--moz-border-radius: 20px;
--webkit-border-radius: 20px;
-border-radius: 20px;
-padding: 1em 2em;
-margin: 1em 0em;
-}	
+body {
+    font-size: 1.6rem;
+}
+.header {
+    background: #2980b9;
+    height: 6rem;
+}
 
-INPUT.text {
-border: solid 1px #8c179;
--moz-border-radius: 20px;
--webkit-border-radius: 20px;
-border-radius: 20px;
-padding: 1em 2em;
-margin: 1em 0em;
-   }
+.search {
+    margin-top: 1.5rem;
+}
+.search input {
+    border: 0.1rem solid #ecf0f1;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    height: 3rem;
+    float: left;
+    width: calc(100%-3rem);
+    
+    
+}
+.search button {
+    border: 0.1rem solid #ecf0f1;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    height: 3rem;
+    float: left;
+    width: 3rem;
+    
+    
+}
 
-INPUT.text:focus {
-border: 2px solid #97233f; /* Рамка при получении фокуса */
--moz-border-radius: 20px;
--webkit-border-radius: 20px;
-border-radius: 20px;
-padding: 1em 2em;
-margin: 1em 0em;
-   }
+.slider-wrapper {
+    margin: 2rem 0;
+}
+.slider {
+    background: url(../img/background.jpg) center no-repeat;
+    background-size: cover;
+    height: 50rem;
+    max-width: 100%;
+    color: rgba(236, 240, 241,1.0);
+    text-transform: uppercase;
+    text-align: center;
+    padding: 20rem 0;
+    font-size: 5rem;
+}
 
-TEXTAREA.text {
-border: solid 1px #8c179;
--moz-border-radius: 20px;
--webkit-border-radius: 20px;
-border-radius: 20px;
-padding: 1em 2em;
-margin: 1em 0em;
-   }
+.block{
+    height: 25rem;
+}
+.block p {
+    color: #ecf0f1;
+    font-weight: thin;
+    text-transform: uppercase;
+    font-size: 5rem;
+    text-align: center;
+    line-height: 25rem;
+}
+.yellow {
+    background: #d35400;
+    margin: 0 0 2rem 0;
+    
+}
+.blue {
+    background: #2980b9;
+}
 
-TEXTAREA.text:focus {
-border: 2px solid #97233f; /* Рамка при получении фокуса */
-   }
-
-BUTTON.new {
-   background: -moz-linear-gradient(#97233f, #FFFFFF);
-   background: -webkit-gradient(linear, 0 0, 0  100%, from(#FFFFFF), to(#97233f), color-stop(0.3, #97233f));
-   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#97233f', endColorstr='#FFFFFF');
-   padding: 5px 10px;
-   color: #000000;
-   -moz-border-radius: 20px;
-   -webkit-border-radius: 20px;
-   border-radius: 20px;
-   border: 1px solid #97233f;
-  }
-
-a {
-    color: #000; /* Цвет обычной ссылки */ 
-    text-decoration: none; /* Убираем подчеркивание у ссылок */
-   }
-   a:visited {
-    color: #97233f; /* Цвет посещённой ссылки */
-   } 
-   a:hover {
-    color: #172; /* Цвет ссылки при наведении на нее курсора мыши */  
-    text-decoration: none; /* Не добавляем подчеркивание */
-   }
-
-.footer{
-    background: #172;
-    color: #FFFFFF;
-    position: relative;
-    height: 100%;
+.text {
+    color: rgba(142, 68, 173,1.0);
+    background: rgba(189, 195, 199,1.0);
+    font-weight: thin;
+    text-align: left;
+    margin: 2rem 0;
+    padding: 0.7rem;
 }
 
 
 
+
+.map {
+    background: rgba(189, 195, 199,1.0);
+}
 
