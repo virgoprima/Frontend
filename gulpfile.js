@@ -6,7 +6,7 @@ browserSync = require('browser-sync').create();
 gulp.task('default', function () {
     browserSync.init({
         server: {
-            baseDir: "./app"
+            baseDir: ["./app", "./bower_components"]
           }
 });
 });
