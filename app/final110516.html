@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nosaeva T</title>
+</head>
+<body>
+    <style>
+        .catch {
+            
+            border-radius: 5px;
+            background:#F00;
+            width: 300px;
+            height: 150px;
+        }
+        
+        p {color: white;
+           font-size: 20px;
+           text-align: center;
+           padding: 50px;
+           
+            }
+            
+       
+       
+        
+        
+        
+    </style>
+    <script>
+        
+        //У Вас есть страница с DIV элементом, в котором записан некоторый текст. 
+        //При наведении на него мышью - DIV убегает (телепортируется) туда, где нет мыши и меняет фразу и цвет внутри себя.
+        // (Допустимые пары цвет текста и цвет фона задаются вручную)
+//Сообщение должно мотивировать словить div снова.
+//После 10 наведений Div Выдает сообщение "Я устал, я ухожу" и становится невидимым(и больше не убегает!)
+
+var found=0;
+min=100;
+max=600;
+
+function randomnum (min, max)
+{
+  return Math.floor(Math.random()*(max - min + 1)) + min;
+}
+
+
+window.onload = function () {
+   // alert(randomnum(min,max))
+
+
+
+    (function (G) {
+
+        var text1 = G.document.getElementById("text");
+        text1.style.cssText = "position: absolute;left:"+randomnum(100,600)+"px; top:"+randomnum(100,600)+"px;";
+       
+        
+        
+        text1.onmouseover = function () {
+found++;
+
+//alert(randomnum(min,max))
+
+
+
+if (found<5){ 
+    
+    switch(found){
+        
+        case 1: {text1.style.backgroundColor = "green";
+               text1.innerHTML = "Hey! Catch me!";
+               text1.style.cssText = "position: absolute;left:"+randomnum(100,600)+"px; top:"+randomnum(100,600)+"px; background: green";
+               //alert ("Лови меня!")
+              } break;
+              
+        case 2: {text1.style.backgroundColor = "brown";
+               text1.innerHTML = "Hey! Hooh! I am here!";
+               text1.style.cssText = "position: absolute;left:"+randomnum(100,600)+"px; top:"+randomnum(100,600)+"px; background: brown";
+              // alert ("Лови меня!")
+                             } break;    
+              
+        case 3: {text1.style.backgroundColor = "pink";
+               text1.innerHTML = "Hey! Hooh! YYYYYY!";
+               text1.style.cssText = "position: absolute;left:"+randomnum(100,600)+"px; top:"+randomnum(100,600)+"px; background: pink";
+              // alert ("Лови меня!")
+              } break; 
+              
+        case 4: {text1.style.backgroundColor = "black";
+               text1.innerHTML = "Hey! You are looser!";
+               text1.style.cssText = "position: absolute;left:"+randomnum(100,600)+"px; top:"+randomnum(100,600)+"px; background: black; color: white";
+              // alert ("Лови меня!")
+              } break;  
+    }
+    
+       
+    
+} else { text1.style.display="none";
+  alert ("Я устал, я ухожу!")
+    
+    
+};
+            
+           
+
+        };
+    } (this));
+}
+    </script>
+
+
+
+   
+    
+    <div class="catch" id="text">
+        
+        <p>Let's have a look what will happen</p>
+        
+        </div>
+        <div class="catch2" id="text2"><p id="text3">Ohooh! I am here!</p></div>
+        <div class="catch3" id="text4"><p>I am here!</p></div>
+</body>
+</html>

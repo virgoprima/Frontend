@@ -1,0 +1,187 @@
+<HTML><HEAD><META content="IE=5.0000" http-equiv="X-UA-Compatible">
+<TITLE>Kempinski Hotel Moika 22</TITLE>	 
+<META charset="UTF-8"></HEAD>
+	<head>
+		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
+		<script src="captiveportal-js/jquery-1.11.3.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="main.css">
+        <link rel="stylesheet" type="text/css" href="gridhotelint1.css">
+		<link rel="stylesheet" type="text/css" href="gridhotelint3.css">
+        <link rel="stylesheet" type="text/css" href="hotelint3-style.css">
+	</head>
+
+    <body>
+
+<div class="wrapper">
+
+<header class="header">
+           <div class="col-8">
+          <div class="welcome"><p>
+              welcome to public wi-fi network
+              </p><br>
+              <p>добро пожаловать в публичную wi-fi сеть</p>
+              </div>
+              </div>
+              <div class="col-4">
+                  <div class="logo">
+                  
+                  </div>
+              </div>
+       </header>
+
+
+<div class="row">
+<div class="col-12">
+
+<div class="content">
+
+<div id="phonediv">
+            <div id="slogan1" class="slogan"><p>To start working please enter your phone number in the form below for identification 
+Для идентификации,пожалуйста, введите Ваш номер мобильного телефона</p></div>
+			<div class="check-terms"> 
+                <div class="button">
+				<input type="checkbox" id="internet_terms_check">
+                </div>
+                <div class="accept">
+				I accept the <a href="internet-terms.html">terms of internet</a>
+				(Я согласен с условиями <a href="internet-terms.html">доступа в интернет</a>)
+                </div>
+			</div>
+            
+            </div>
+			
+            <div class="inputdiv">
+				<form id="phoneform" action="/" method="post">
+					<input type="text" name="phone" placeholder="11 digits starting with +" id="phonebox" class="phoneinput">
+					<br>
+					<button type="submit" class="submitbutton">Recieve Code</button>
+				</form>
+			</div>
+			<div class="centered">
+				<button name="havecode" id="havecode" class="resendbutton">Already have the Code</button>
+			</div>
+
+        </div> 
+
+        <div id="codediv" class="hidden">
+            <div id="slogan2" class="slogan">
+				Enter the code that was sent to your phone number
+			</div>
+            <div class="inputdiv">
+				<form id="codeform" action="/" method="post">
+					<input type="text" name="code" placeholder="Enter the code here" id="code" class="phoneinput"/>
+					<input type="hidden" name="redirurl" value="#PORTAL_REDIRURL#"/>
+					<input type="hidden" name="accept" value="true"/>
+					<button type="submit" class="submitbutton">Go Online</button>
+				</form>
+			</div>
+
+			<div class="centered">
+				<button name="resend" id="resend" class="resendbutton">Resend me the Code</button>
+			</div>
+			<div class="centered">
+				The code can be resend in 5 minutes
+			</div>
+			
+        </div> 
+        </div>
+
+		<script>
+			function displayError(slogan, text) {
+				$(slogan).text(text);
+				$(slogan).removeClass("slogan");
+				$(slogan).addClass("slogan-red");
+			}
+			
+			function displayCodeBox() {
+				$("#phonediv").addClass("hidden");
+				$("#codediv").removeClass("hidden");
+			}
+
+			function sendCode(attempt) {
+				slogan = "#slogan" + attempt;
+				$.post("captiveportal-utils/sendcode.php",
+					{
+						phone: $("#phonebox").val()
+					},
+					function(data, status){
+						var obj = jQuery.parseJSON(data);
+						if (obj.result === "OK") {
+							if (attempt === 1) {
+								displayCodeBox();
+							} else {
+								displayError(slogan, "The code has been sent to the number " + $("#phonebox").val() + " Please enter it below.");
+							}
+						} else {
+							displayError(slogan, obj.text);
+						}
+					});
+			}			
+			
+			$(document).ajaxError(function(){
+				$(slogan).text("Oops, there seems to be connection problem. Please try again later!");
+			});	
+
+			$("#resend").click(function(){
+				sendCode(2);
+				return false;
+			});
+			
+			$("#havecode").click(function(){
+				displayCodeBox();
+				return false;
+			});
+			
+			$("#phoneform").submit(function(event){
+				checked1 = $("#internet_terms_check").is(":checked");
+				if (checked1) {
+					sendCode(1);
+				} else {
+					displayError("#slogan1", "You need to accept terms of internet by pressing checkbox");
+				}
+
+				event.preventDefault();
+			});
+			
+			codechecked = false;
+			
+			$("#codeform").on('submit', function(e) {
+				if (codechecked) {
+					
+					return true;
+				}				
+				
+				$.post("captiveportal-utils/checkcode.php",
+					{
+						code: $("#code").val()
+					},
+					function(data, status){
+						var obj = jQuery.parseJSON(data);
+						if (obj.result === "OK") {
+							displayError("#slogan2", "Correct code, proceeding to internet!");
+							codechecked = true;
+							$("#codeform").trigger('submit');
+						} else {
+							displayError("#slogan2", obj.text);
+						}
+					});
+				return false;
+			});
+		</script>
+</div>
+</div>
+</div>
+
+
+
+<div class="row">
+<div class="footer">
+</div>
+</div>
+
+
+</div>
+
+</body>
+
+</html>

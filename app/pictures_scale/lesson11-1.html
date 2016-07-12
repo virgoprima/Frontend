@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="row">
+        <img src="images/1.jpg" alt="">
+        <img src="images/2.jpg" alt="">
+        <img src="images/3.jpg" alt="">
+        <img src="images/4.jpg" alt="">
+        <img src="images/5.jpg" alt="">
+        <img src="images/6.jpg" alt="">
+        <img src="images/7.jpg" alt="">
+        <img src="images/8.jpg" alt="">
+        <img src="images/9.jpg" alt="">
+        <img src="images/10.jpg" alt="">
+    </div>
+      <style>
+  
+  
+  </style>
+    <script type="text/javascript">
+    var n=+prompt('Введите число картинок не более 10');
+    
+var j=$("div>img").length;
+
+    function imgу() {
+       //alert(j);
+        
+        for (i=0; i<j; i++) {
+            //alert($('div>img')[i]);
+            if (i<n) {
+                
+                //alert($($("div>img").get(i)));
+                $($("div>img").get(i)).show();
+            alert ("Показываю элемент с id= "+ i)}
+                 else {
+                 $($("div>img").get(i)).hide();
+                alert ("Прячу элемент с id= "+ i)
+            }
+    } }
+       imgу();  
+     switch (n) {
+         case 1: {$( "div>img" ).addClass( "img1" );} break;
+         
+         case 2: {$( "div>img" ).addClass( "img2" );
+                
+                } break;
+                 
+         case 3: {$( "div>img" ).addClass( "img3" );
+                 
+                } break;
+                
+         case 4: {$( "div>img" ).addClass( "img4" ); 
+                 
+                } break; 
+         case 5: {$( "div>img" ).addClass( "img4" ); 
+                
+                } break; 
+         case 6: {$( "div>img" ).addClass( "img3" ); 
+                
+                } break; 
+         case 7: {$( "div>img" ).addClass( "img4" ); 
+              
+                } break; 
+         case 8: {$( "div>img" ).addClass( "img4" ); 
+                
+                } break; 
+                
+         case 9: {$( "div>img" ).addClass( "img4" ); 
+               
+                } break; 
+                
+         case 10: {$( "div>img" ).addClass( "img10" ); 
+                
+                } break; 
+         
+     }   
+
+  
+    </script>
+</body>
+</html>

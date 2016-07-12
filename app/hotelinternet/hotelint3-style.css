@@ -1,0 +1,113 @@
+@import url(gridhotelint3.css);
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-size: 1rem;
+    font-family: font-family: Times New Roman;
+    background: #f1eeea;
+}
+.header {
+    background: #8db9e6;
+    height: 10rem;
+    /*text-transform: uppercase;*/
+    text-align: right;
+    padding: 2rem 0 2rem 0;
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.header-mobile {
+		display: hidden;
+}
+.welcome {
+    color: #000;
+    font-family: Calibri, Times New Roman, sans-serif;
+    
+    font-size: 1.5rem;
+}
+
+.logo {
+    background: url(logo.png) center no-repeat;
+    background-size: cover;
+    height: 5.984rem;
+    width: 7.084rem;
+    float: right;
+    padding: 1rem 1rem 3rem 0;
+    margin: 0 1rem 2rem 0;
+}
+
+
+
+.text {
+    color: rgba(142, 68, 173,1.0);
+    
+    font-weight: thin;
+
+    text-transform: uppercase;
+    margin: 0 0 0 0.5rem;
+    padding: 0.7rem;
+}
+.news {
+    background: url(magazine1.png) center no-repeat;
+    background-size: cover;
+    height: 3.75rem;
+    max-width: 100%;
+    color: #000;
+    
+    text-transform: uppercase;
+    /*font-weight: bold;*/
+    text-align: center;
+    padding: 10rem 0;
+    font-size: 2rem;
+    margin: 0 0.5rem 0.5rem 0.5rem;
+}
+
+.socialwork {
+    background: url(work.png) center no-repeat;
+    background-size: cover;
+    height: 3.75rem;
+    max-width: 100%;
+    color: #000;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10rem 0;
+    font-size: 2rem;
+    margin: 0 0.5rem 0.5rem 0.5rem;
+}
+
+
+
+.banner {
+    margin: 1rem 0 1rem 0.5rem;
+}
+
+.icons {
+    background: url(social1.png) center no-repeat;
+    background-size: cover;
+    height: 3.75rem;
+    max-width: 100%;
+    color: #000;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10rem 0;
+    font-size: 2rem;
+    margin: 0 0.5rem 0.5rem 0.5rem;
+}
+  
+  .socialtext {
+      margin: 1rem 0 1rem 0.5rem;
+      
+      .col-4 {
+          float: left;
+      }
+      
+
+.footer {
+
+
+color: #000;
+background: #8db9e6;
+padding: 10px;
+}

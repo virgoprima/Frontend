@@ -1,0 +1,45 @@
+@import url(grid.css);
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-size: 1.6rem;
+}
+
+.img1{
+    position: absolute;
+    height: 60rem;
+    width: 80rem;
+}
+
+.img2{
+    float:left;
+    height:auto;
+    width: 49%;
+    margin: 0.1rem 0.1rem 0.1rem 0.1rem;
+}
+
+.img3{
+    float: left;
+    height:auto;
+    width: 33%;
+    margin: 0.1rem 0.1rem 0.1rem 0.1rem;
+}
+
+.img4{
+    float: left;
+    height:auto;
+    width: 24.5%;
+    margin: 0.1rem 0.1rem 0.1rem 0.1rem;
+    
+}
+
+.img10{
+    float: left;
+    height:auto;
+    width: 19.6%;
+    margin: 0.1rem 0.1rem 0.1rem 0.1rem;
+    
+}

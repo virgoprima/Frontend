@@ -1,0 +1,40 @@
+<html>
+<body>
+    {{>header}}
+	{{ ^logged }}
+	<h1>{{ title }}</h1>
+	<form method="post" action="login">
+		<label for="login">Имя: </label><input type="text" id="login" name="login"><br />
+		<label for="password">Пароль: </label><input type="password" id="password" name="password"><br />
+		<input type="submit" value="Отправить"></input>
+	</form>
+	{{ /logged }}
+    
+	{{ #logged }}
+	<h1>{{ title }}</h1>
+	<p>Привет, спасибо за визит! Выбери, кому написать сообщение. <strong>{{login}}</strong></p>
+    
+    <div><select name="select" id="selection">
+            <option value="1" name = "Eug">Evgeniy</option>
+            <option value="2" name = "Tat">Tatiana</option>
+            <option value="3" name = "adm">admin</option>
+        </select>
+     </div><br><br><br>
+     
+    
+    <br><textarea name="textArea1" rows="10" cols="100" id="mess"></textarea><br><br><br>
+    
+    <input type="submit" value = "Отправить сообщение" id = "sendButton">
+    <br><br><br>
+    
+    <ul id="messages"></ul>
+    
+    <form method="post" action="/login/exit">
+    <input type="submit" value = "Выход" id = "out">
+    </form>
+    
+    
+	{{ /logged }}
+    {{>footer}}
+</body>
+</html>
