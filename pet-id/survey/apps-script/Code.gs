@@ -51,6 +51,8 @@ function doPost(e) {
 
     return json_({ ok: true });
   } catch (err) {
+    // Попадает в журнал выполнений Apps Script (Выполнения → строка → журнал)
+    console.error('Не удалось записать ответ: ' + err + '\nДанные: ' + (e && e.postData ? e.postData.contents : ''));
     return json_({ ok: false, error: String(err) });
   } finally {
     lock.releaseLock();
