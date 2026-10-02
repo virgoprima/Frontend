@@ -2,9 +2,11 @@
  * Pet ID — аналитика ответов опроса.
  *
  * - buildAnalytics()  пересчитывает лист «Аналитика» (таблицы, срезы, графики).
- *                     Запускается триггером раз в час и из меню «Pet ID».
- * - setupAnalytics()  запустить один раз вручную: включает часовой триггер,
- *                     создаёт секретный ключ для еженедельного отчёта и строит лист.
+ *                     Вручную — из меню «Pet ID».
+ * - scheduledAnalytics() то же по расписанию: каждый день в 9:00 (МСК)
+ *                     до SCHEDULE_LAST_DAY включительно, затем расписание удаляется.
+ * - setupAnalytics()  запустить вручную: включает ежедневное расписание,
+ *                     создаёт секретный ключ для отчёта и строит лист.
  * - reportResponse_() текстовая сводка для еженедельного отчёта Claude.
  *                     Отдаётся по адресу веб-приложения с параметром ?key=<REPORT_KEY>.
  *
@@ -16,6 +18,8 @@ const ANALYTICS_SHEET = 'Аналитика';
 const OTHER_OPTION = 'Другое';
 const REPORT_OPEN_ANSWERS_LIMIT = 150;   // сколько последних открытых ответов отдавать в сводку
 const REPORT_OPEN_ANSWER_MAX_CHARS = 400;
+const SCHEDULE_HOUR = 9;                  // ежедневный пересчёт, час по Москве
+const SCHEDULE_LAST_DAY = '2026-10-09';   // последний день автоматического пересчёта (включительно)
 
 // Вопросы и варианты — те же, что на странице опроса (pet-id/survey/index.html).
 const QUESTIONS_META = [
@@ -45,17 +49,39 @@ function onOpen() {
 }
 
 function setupAnalytics() {
-  ScriptApp.getProjectTriggers()
-    .filter(function (t) { return t.getHandlerFunction() === 'buildAnalytics'; })
-    .forEach(function (t) { ScriptApp.deleteTrigger(t); });
-  ScriptApp.newTrigger('buildAnalytics').timeBased().everyHours(1).create();
+  removeAnalyticsTriggers_();
+  // Google запускает такой триггер в течение часа после 9:00 (обычно в пределах ±15 минут от nearMinute).
+  ScriptApp.newTrigger('scheduledAnalytics').timeBased()
+    .everyDays(1).atHour(SCHEDULE_HOUR).nearMinute(0).inTimezone(TIME_ZONE).create();
 
   const props = PropertiesService.getScriptProperties();
   if (!props.getProperty('REPORT_KEY')) {
     props.setProperty('REPORT_KEY', Utilities.getUuid().replace(/-/g, ''));
   }
   buildAnalytics();
-  console.log('Триггер включён. REPORT_KEY: ' + props.getProperty('REPORT_KEY'));
+  console.log('Ежедневный пересчёт в ' + SCHEDULE_HOUR + ':00 (МСК) включён, последний — ' + SCHEDULE_LAST_DAY + '.');
+}
+
+// Запускается триггером раз в сутки. После SCHEDULE_LAST_DAY сам удаляет своё расписание.
+function scheduledAnalytics() {
+  const today = Utilities.formatDate(new Date(), TIME_ZONE, 'yyyy-MM-dd');
+  if (today > SCHEDULE_LAST_DAY) { removeAnalyticsTriggers_(); return; }
+  buildAnalytics();
+  if (today >= SCHEDULE_LAST_DAY) removeAnalyticsTriggers_();
+}
+
+function removeAnalyticsTriggers_() {
+  ScriptApp.getProjectTriggers()
+    .filter(function (t) { return ['buildAnalytics', 'scheduledAnalytics'].indexOf(t.getHandlerFunction()) !== -1; })
+    .forEach(function (t) { ScriptApp.deleteTrigger(t); });
+}
+
+function scheduleNote_() {
+  const today = Utilities.formatDate(new Date(), TIME_ZONE, 'yyyy-MM-dd');
+  const last = SCHEDULE_LAST_DAY.split('-').reverse().join('.');
+  return today < SCHEDULE_LAST_DAY
+    ? 'Пересчитывается автоматически каждый день в ' + SCHEDULE_HOUR + ':00 (МСК), последний раз — ' + last + '. Вручную: меню «Pet ID» → «Обновить аналитику».'
+    : 'Автоматический пересчёт завершён (' + last + '). Обновить вручную: меню «Pet ID» → «Обновить аналитику».';
 }
 
 /* ---------- Чтение и разбор ответов ---------- */
@@ -161,7 +187,7 @@ function buildAnalytics() {
   bold.push(push('Pet ID — аналитика опроса'));
   push('Обновлено (МСК)', now);
   push('Ответов', rows.length);
-  push('Пересчитывается автоматически раз в час. Вручную: меню «Pet ID» → «Обновить аналитику».');
+  push(scheduleNote_());
   push('');
 
   if (!rows.length) {
