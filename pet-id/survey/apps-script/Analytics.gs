@@ -225,6 +225,7 @@ function buildAnalytics() {
     }
   }
 
+  sheet.getRange(1, 1, out.length, 1).setNumberFormat('@'); // варианты «1», «2» — текст, а не числа
   sheet.getRange(1, 1, out.length, 3).setValues(out);
   bold.forEach(function (r) { sheet.getRange(r, 1, 1, 3).setFontWeight('bold'); });
   fmt.forEach(function (f) { if (f[2]) sheet.getRange(f[0], f[1], f[2], 1).setNumberFormat('0%'); });
