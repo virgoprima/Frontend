@@ -60,7 +60,10 @@ function doPost(e) {
 }
 
 // Открыв адрес веб-приложения в браузере, можно проверить, что оно работает.
-function doGet() {
+// С параметром ?key=<REPORT_KEY> отдаёт сводку для еженедельного отчёта (см. Analytics.gs).
+function doGet(e) {
+  const key = e && e.parameter ? e.parameter.key : '';
+  if (key) return reportResponse_(key);
   return json_({ ok: true, message: 'Pet ID survey endpoint is running' });
 }
 
