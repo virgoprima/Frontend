@@ -89,13 +89,17 @@
   textarea{resize:vertical;min-height:110px;line-height:1.6}
   .row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .when{display:grid;grid-template-columns:1fr;gap:22px;max-width:560px}
-  .sub-l{display:block;font-size:13.5px;color:var(--ink-soft);margin-bottom:8px}
-  .days-in{display:none;align-items:center;gap:10px;margin-top:10px;max-width:220px}
-  .days-in.on{display:flex}
-  .days-in input{width:120px}
-  .days-in span{color:var(--ink-soft);font-size:14.5px}
-  @media (max-width:900px){.when{grid-template-columns:1fr}}
+  .sub-l{display:block;font-size:13.5px;color:var(--ink-soft);margin-bottom:6px}
+  .dates{display:flex;align-items:flex-end;gap:12px;max-width:560px}
+  .date-f{flex:1;min-width:0}
+  .date-f input{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:4px;padding:11px 14px;font-size:15.5px;outline:none;cursor:pointer;min-height:48px}
+  .date-f input:focus{border-color:var(--green);background:#fff}
+  .date-dash{padding-bottom:12px;color:var(--ink-soft)}
+  .dur{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:10px 16px;border-radius:40px;background:var(--green-mist);color:var(--ink-soft);font-size:14.5px}
+  .dur.ok{background:var(--green-pale);color:var(--green)}
+  .dur.ok b{font-family:var(--serif);font-size:22px;font-weight:600;line-height:1}
+  .dur.bad{background:#FBEDE9;color:var(--coral-text)}
+  @media (max-width:520px){.dates{flex-direction:column;align-items:stretch}.date-dash{display:none}}
   .counter{font-size:12.5px;color:var(--ink-soft);text-align:right;margin-top:6px}
   .counter.ok{color:#4F8A60}
 
@@ -328,24 +332,16 @@
         </div>
 
         <div class="field" data-req="when">
-          <div class="when">
-            <div class="sub-f">
-              <div class="f-label"><b>Когда ездили?</b><span class="req">обязательно</span></div>
-              <div class="row2">
-                <select id="month" aria-label="Месяц"><option value="">Месяц</option><option>январь</option><option>февраль</option><option>март</option><option>апрель</option><option>май</option><option>июнь</option><option>июль</option><option>август</option><option>сентябрь</option><option>октябрь</option><option>ноябрь</option><option>декабрь</option></select>
-                <select id="year" aria-label="Год"><option value="">Год</option><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>раньше</option></select>
-              </div>
-            </div>
-            <div class="sub-f">
-              <div class="f-label"><b>Сколько дней длилась поездка?</b><span class="req">обязательно</span></div>
-              <div class="chips single" id="durChips">
-                <button class="chip" data-d="1">1 день</button><button class="chip" data-d="2">2–3 дня</button><button class="chip" data-d="7">неделя</button><button class="chip" data-d="14">2 недели</button><button class="chip" data-d="0">указать точно</button>
-              </div>
-              <div class="days-in" id="daysWrap"><input type="number" id="days" min="1" max="365" placeholder="Например, 5"><span id="daysUnit">дней</span></div>
-            </div>
+          <div class="f-label"><b>Когда ездили?</b><span class="req">обязательно</span></div>
+          <div class="dates">
+            <label class="date-f"><span class="sub-l">Начало поездки</span><input type="date" id="dStart"></label>
+            <span class="date-dash">—</span>
+            <label class="date-f"><span class="sub-l">Окончание</span><input type="date" id="dEnd"></label>
           </div>
+          <div class="dur" id="dur"><span class="dur-ico">🗓</span><span id="durTxt">Выберите даты — число дней посчитаем сами</span></div>
+          <input type="hidden" id="days">
           <p class="hint">Дату видят читатели: по ней понятно, насколько свежие сведения.</p>
-          <p class="err-msg">Укажите месяц, год и сколько дней длилась поездка</p>
+          <p class="err-msg">Выберите дату начала и окончания поездки</p>
         </div>
 
         <div class="field" data-req="how">
@@ -531,7 +527,7 @@
   var checks={
     dog:function(){return state.dogs.length>0},
     where:function(){return state.places.length>0},
-    when:function(){return $('#month').value&&$('#year').value&&+$('#days').value>0},
+    when:function(){return +$('#days').value>0},
     how:function(){return state.how.length>0},
     type:function(){return !!state.type},
     title:function(){return $('#title').value.trim().length>2},
@@ -605,15 +601,30 @@
     $('#placeTags').innerHTML=state.places.map(function(p,i){return '<span class="chip tag">📍 '+p+' <button data-i="'+i+'" title="Убрать">×</button></span>'}).join('');
     $$('#placeTags button').forEach(function(b){b.onclick=function(){state.places.splice(+b.dataset.i,1);renderPlaces();update()}});
   }
-  function dayWord(n){var m=n%10,h=n%100;return m===1&&h!==11?'день':(m>=2&&m<=4&&(h<10||h>=20)?'дня':'дней')}
-  $('#days').addEventListener('input',function(){$('#daysUnit').textContent=dayWord(+this.value||0)});
-  $$('#durChips .chip').forEach(function(c){c.onclick=function(){
-    $$('#durChips .chip').forEach(function(x){x.classList.remove('on')});c.classList.add('on');
-    var d=+c.dataset.d;
-    if(d){$('#days').value=d;$('#daysWrap').classList.remove('on')}else{$('#days').value='';$('#daysWrap').classList.add('on');$('#days').focus()}
-    $('#daysUnit').textContent=dayWord(+$('#days').value||0);clearErr('when');update();saved();
-  }});
-  ['month','year','days'].forEach(function(id){$('#'+id).addEventListener('change',function(){clearErr('when');update()})});
+  var MON=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  var today=new Date();today.setHours(12,0,0,0);
+  var iso=function(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+  $('#dStart').max=$('#dEnd').max=iso(today);
+  function pd(v){if(!v)return null;var p=v.split('-');return new Date(+p[0],+p[1]-1,+p[2],12)}
+  function calcDays(){
+    var a=pd($('#dStart').value),b=pd($('#dEnd').value),box=$('#dur'),t=$('#durTxt');
+    $('#dEnd').min=$('#dStart').value||'';
+    box.className='dur';$('#days').value='';
+    if(a&&!b){t.textContent='Начало: '+a.getDate()+' '+MON[a.getMonth()]+' '+a.getFullYear()+'. Теперь выберите дату окончания';}
+    else if(!a&&b){t.textContent='Выберите дату начала';}
+    else if(a&&b){
+      var n=Math.round((b-a)/864e5)+1;
+      if(n<1){box.classList.add('bad');t.textContent='Дата окончания раньше даты начала';}
+      else{
+        $('#days').value=n;box.classList.add('ok');
+        var nights=n-1,range=a.getMonth()===b.getMonth()&&a.getFullYear()===b.getFullYear()?(n===1?a.getDate()+' '+MON[a.getMonth()]:a.getDate()+'–'+b.getDate()+' '+MON[b.getMonth()]):a.getDate()+' '+MON[a.getMonth()]+' – '+b.getDate()+' '+MON[b.getMonth()];
+        t.innerHTML='Поездка длилась <b>'+n+'</b> '+plural(n,'день','дня','дней')+(nights?' · '+nights+' '+plural(nights,'ночь','ночи','ночей'):' · без ночёвки')+' <span style="opacity:.7">('+range+' '+b.getFullYear()+')</span>';
+      }
+    } else t.textContent='Выберите даты — число дней посчитаем сами';
+    clearErr('when');update();
+  }
+  ['dStart','dEnd'].forEach(function(id){$('#'+id).addEventListener('change',calcDays);$('#'+id).addEventListener('input',calcDays)});
+  ['dStart','dEnd'].forEach(function(id){$('#'+id).addEventListener('click',function(){try{this.showPicker()}catch(e){}})});
 
   /* ---------- Chips ---------- */
   $$('#howChips .chip').forEach(function(c){c.onclick=function(){c.classList.toggle('on');state.how=$$('#howChips .chip.on').map(function(x){return x.textContent});clearErr('how');update()}});
@@ -716,7 +727,7 @@
   $('#demoBtn').onclick=function(){
     var d=$('.dog[data-dog="Бублик"]');if(!d.classList.contains('on'))d.click();
     state.places=[];['Петрозаводск','Рускеала','Сортавала'].forEach(addPlace);closeList();
-    $('#month').value='июль';$('#year').value='2026';$$('#durChips .chip').forEach(function(x){x.classList.toggle('on',x.dataset.d==='0')});$('#daysWrap').classList.add('on');$('#days').value=5;$('#daysUnit').textContent='дней';
+    $('#dStart').value='2026-07-12';$('#dEnd').value='2026-07-16';calcDays();
     $$('#howChips .chip').forEach(function(c){if(/Авто$/.test(c.textContent)&&!c.classList.contains('on'))c.click()});
     $$('#typeChips .chip')[2].click();
     $('#title').value='Карелия на троих: я, муж и бигль Бублик';$('#titleCnt').textContent=$('#title').value.length+' / 80';
