@@ -105,10 +105,22 @@
 
   /* Place autocomplete */
   .ac{position:relative}
-  .ac-list{position:absolute;left:0;right:0;top:100%;background:#fff;border:1px solid var(--line);border-top:0;z-index:5;display:none;max-height:220px;overflow:auto}
-  .ac-list div{padding:10px 14px;cursor:pointer;font-size:15px}
-  .ac-list div small{color:var(--ink-soft);margin-left:6px}
-  .ac-list div:hover{background:var(--green-mist)}
+  .ac input{padding-right:44px}
+  .ac-arrow{position:absolute;right:0;top:0;height:100%;width:44px;border:0;background:none;cursor:pointer;display:grid;place-items:center;color:var(--ink-soft)}
+  .ac-arrow svg{width:16px;height:16px;transition:transform .2s}
+  .ac.open .ac-arrow svg{transform:rotate(180deg)}
+  .ac.open input{border-color:var(--green);background:#fff;border-radius:4px 4px 0 0}
+  .ac-list{position:absolute;left:0;right:0;top:100%;background:#fff;border:1px solid var(--green);border-top:1px solid var(--line);border-radius:0 0 4px 4px;z-index:6;display:none;max-height:320px;overflow:auto;box-shadow:0 14px 30px rgba(26,37,56,.12)}
+  .ac.open .ac-list{display:block}
+  .ac-grp{padding:10px 14px 4px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral-text);background:#fff;position:sticky;top:0}
+  .ac-it{padding:9px 14px;cursor:pointer;font-size:15px;display:flex;align-items:baseline;gap:8px}
+  .ac-it small{color:var(--ink-soft);font-size:12.5px}
+  .ac-it mark{background:none;color:var(--coral-text);font-weight:500}
+  .ac-it.sel{color:var(--ink-soft)}
+  .ac-it.sel::after{content:"✓";margin-left:auto;color:var(--green)}
+  .ac-it:hover,.ac-it.hl{background:var(--green-mist)}
+  .ac-it.custom{color:var(--green);border-top:1px solid var(--line)}
+  .ac-empty{padding:12px 14px;color:var(--ink-soft);font-size:14px}
   .place-tags{margin-top:12px}
 
   /* Cover */
@@ -290,11 +302,12 @@
         <div class="field" data-req="where">
           <div class="f-label"><b>Куда ездили</b><span class="req">обязательно</span></div>
           <div class="ac">
-            <input type="text" id="placeIn" placeholder="Начните вводить: город, регион, страна…" autocomplete="off">
-            <div class="ac-list" id="acList"></div>
+            <input type="text" id="placeIn" placeholder="Выберите город из списка или начните вводить…" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="acList">
+            <button type="button" class="ac-arrow" id="acArrow" aria-label="Показать список"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="ac-list" id="acList" role="listbox"></div>
           </div>
           <div class="chips place-tags" id="placeTags"></div>
-          <p class="hint">Можно добавить несколько точек: например, «Петрозаводск», «Рускеала», «Сортавала».</p>
+          <p class="hint">Можно добавить несколько точек: например, «Петрозаводск», «Рускеала», «Сортавала». Нет нужного города — введите его и нажмите Enter.</p>
           <p class="err-msg">Добавьте хотя бы одно место</p>
         </div>
 
@@ -521,20 +534,44 @@
   };
 
   /* ---------- Places ---------- */
-  var PLACES=[['Карелия','Россия, регион'],['Петрозаводск','Карелия'],['Рускеала','Карелия'],['Сортавала','Карелия'],['Алтай','Россия, регион'],['Горно-Алтайск','Алтай'],['Суздаль','Владимирская обл.'],['Казань','Татарстан'],['Калининград','Россия'],['Куршская коса','Калининградская обл.'],['Сочи','Краснодарский край'],['Абхазия','страна'],['Грузия','страна'],['Тбилиси','Грузия'],['Армения','страна'],['Байкал','Иркутская обл.'],['Кавказ','регион'],['Мурманск','Россия'],['Териберка','Мурманская обл.'],['Плёс','Ивановская обл.']];
-  var pin=$('#placeIn'),al=$('#acList');
-  pin.oninput=function(){
-    var q=pin.value.trim().toLowerCase();
-    if(!q){al.style.display='none';return}
-    var m=PLACES.filter(function(p){return p[0].toLowerCase().indexOf(q)>-1});
-    var html=m.map(function(p){return '<div data-p="'+p[0]+'">'+p[0]+'<small>'+p[1]+'</small></div>'}).join('');
-    html+='<div data-p="'+pin.value.trim()+'">+ Добавить «'+pin.value.trim()+'»</div>';
-    al.innerHTML=html;al.style.display='block';
+  var CITIES={
+    'Россия':['Москва|столица','Санкт-Петербург|Северо-Запад','Петрозаводск|Карелия','Сортавала|Карелия','Рускеала|Карелия','Кемь|Карелия','Выборг|Ленинградская обл.','Великий Новгород|Новгородская обл.','Псков|Псковская обл.','Изборск|Псковская обл.','Калининград|Калининградская обл.','Зеленоградск|Калининградская обл.','Светлогорск|Калининградская обл.','Мурманск|Мурманская обл.','Териберка|Мурманская обл.','Архангельск|Архангельская обл.','Вологда|Вологодская обл.','Кириллов|Вологодская обл.','Ярославль|Ярославская обл.','Ростов Великий|Ярославская обл.','Кострома|Костромская обл.','Плёс|Ивановская обл.','Суздаль|Владимирская обл.','Владимир|Владимирская обл.','Тверь|Тверская обл.','Осташков (Селигер)|Тверская обл.','Тула|Тульская обл.','Рязань|Рязанская обл.','Нижний Новгород|Нижегородская обл.','Казань|Татарстан','Свияжск|Татарстан','Уфа|Башкортостан','Самара|Самарская обл.','Ширяево|Самарская обл.','Волгоград|Волгоградская обл.','Астрахань|Астраханская обл.','Сочи|Краснодарский край','Красная Поляна|Краснодарский край','Геленджик|Краснодарский край','Анапа|Краснодарский край','Краснодар|Краснодарский край','Ростов-на-Дону|Ростовская обл.','Кисловодск|Ставропольский край','Пятигорск|Ставропольский край','Домбай|Карачаево-Черкесия','Архыз|Карачаево-Черкесия','Нальчик|Кабардино-Балкария','Махачкала|Дагестан','Дербент|Дагестан','Екатеринбург|Свердловская обл.','Пермь|Пермский край','Челябинск|Челябинская обл.','Таганай|Челябинская обл.','Тюмень|Тюменская обл.','Тобольск|Тюменская обл.','Новосибирск|Новосибирская обл.','Томск|Томская обл.','Барнаул|Алтайский край','Белокуриха|Алтайский край','Горно-Алтайск|Республика Алтай','Чемал|Республика Алтай','Красноярск|Красноярский край','Иркутск|Иркутская обл.','Листвянка (Байкал)|Иркутская обл.','Ольхон (Байкал)|Иркутская обл.','Улан-Удэ|Бурятия','Владивосток|Приморский край','Хабаровск|Хабаровский край','Петропавловск-Камчатский|Камчатка','Южно-Сахалинск|Сахалин'],
+    'Ближнее зарубежье':['Минск|Беларусь','Брест|Беларусь','Гродно|Беларусь','Тбилиси|Грузия','Батуми|Грузия','Казбеги|Грузия','Ереван|Армения','Дилижан|Армения','Баку|Азербайджан','Алматы|Казахстан','Астана|Казахстан','Бишкек|Киргизия','Каракол (Иссык-Куль)|Киргизия','Ташкент|Узбекистан','Самарканд|Узбекистан','Сухум|Абхазия','Гагра|Абхазия'],
+    'Мир':['Стамбул|Турция','Каппадокия|Турция','Анталья|Турция','Белград|Сербия','Будва|Черногория','Берлин|Германия','Мюнхен|Германия','Вена|Австрия','Прага|Чехия','Будапешт|Венгрия','Париж|Франция','Ницца|Франция','Рим|Италия','Доломиты|Италия','Барселона|Испания','Лиссабон|Португалия','Амстердам|Нидерланды','Цюрих|Швейцария','Хельсинки|Финляндия','Рига|Латвия','Таллин|Эстония','Дубай|ОАЭ']
   };
-  pin.onkeydown=function(e){if(e.key==='Enter'&&pin.value.trim()){e.preventDefault();addPlace(pin.value.trim())}};
-  al.onclick=function(e){var d=e.target.closest('[data-p]');if(d)addPlace(d.dataset.p)};
-  document.addEventListener('click',function(e){if(!e.target.closest('.ac'))al.style.display='none'});
-  function addPlace(p){if(state.places.indexOf(p)<0)state.places.push(p);pin.value='';al.style.display='none';renderPlaces();clearErr('where');update()}
+  var LIST=[];Object.keys(CITIES).forEach(function(g){CITIES[g].forEach(function(c){var p=c.split('|');LIST.push({n:p[0],r:p[1],g:g})})});
+  var pin=$('#placeIn'),al=$('#acList'),acw=pin.parentNode,hl=-1;
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function openList(){acw.classList.add('open');pin.setAttribute('aria-expanded','true');renderList()}
+  function closeList(){acw.classList.remove('open');pin.setAttribute('aria-expanded','false');hl=-1}
+  function renderList(){
+    var q=pin.value.trim().toLowerCase(),html='',g0='',n=0;
+    LIST.forEach(function(c){
+      if(q&&(c.n+' '+c.r).toLowerCase().indexOf(q)<0)return;
+      if(c.g!==g0){html+='<div class="ac-grp">'+c.g+'</div>';g0=c.g}
+      var name=esc(c.n);
+      if(q){var i=c.n.toLowerCase().indexOf(q);if(i>-1)name=esc(c.n.slice(0,i))+'<mark>'+esc(c.n.slice(i,i+q.length))+'</mark>'+esc(c.n.slice(i+q.length))}
+      html+='<div class="ac-it'+(state.places.indexOf(c.n)>-1?' sel':'')+'" role="option" data-p="'+esc(c.n)+'">'+name+'<small>'+esc(c.r)+'</small></div>';n++;
+    });
+    if(!n)html+='<div class="ac-empty">Такого города пока нет в списке</div>';
+    if(q)html+='<div class="ac-it custom" data-p="'+esc(pin.value.trim())+'">+ Добавить «'+esc(pin.value.trim())+'» вручную</div>';
+    al.innerHTML=html;hl=-1;
+  }
+  function items(){return $$('.ac-it',al)}
+  function move(d){var it=items();if(!it.length)return;hl=(hl+d+it.length)%it.length;it.forEach(function(x,i){x.classList.toggle('hl',i===hl)});it[hl].scrollIntoView({block:'nearest'})}
+  pin.onfocus=openList;pin.onclick=openList;
+  pin.oninput=function(){acw.classList.contains('open')?renderList():openList()};
+  $('#acArrow').onclick=function(){if(acw.classList.contains('open'))closeList();else{pin.focus();openList()}};
+  pin.onkeydown=function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();if(!acw.classList.contains('open'))openList();move(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();move(-1)}
+    else if(e.key==='Escape'){closeList()}
+    else if(e.key==='Enter'){e.preventDefault();var it=items();if(hl>-1&&it[hl])addPlace(it[hl].dataset.p);else if(pin.value.trim()){var f=it.filter(function(x){return !x.classList.contains('custom')});addPlace(f.length?f[0].dataset.p:pin.value.trim())}}
+  };
+  al.onmousedown=function(e){e.preventDefault()};
+  al.onclick=function(e){e.stopPropagation();var d=e.target.closest('[data-p]');if(d)addPlace(d.dataset.p)};
+  document.addEventListener('click',function(e){if(!e.target.closest('.ac'))closeList()});
+  function addPlace(p){var i=state.places.indexOf(p);if(i<0)state.places.push(p);else state.places.splice(i,1);pin.value='';renderPlaces();if(acw.classList.contains('open'))renderList();clearErr('where');update()}
   function renderPlaces(){
     $('#placeTags').innerHTML=state.places.map(function(p,i){return '<span class="chip tag">📍 '+p+' <button data-i="'+i+'" title="Убрать">×</button></span>'}).join('');
     $$('#placeTags button').forEach(function(b){b.onclick=function(){state.places.splice(+b.dataset.i,1);renderPlaces();update()}});
@@ -641,7 +678,7 @@
   /* ---------- Demo fill ---------- */
   $('#demoBtn').onclick=function(){
     var d=$('.dog[data-dog="Бублик"]');if(!d.classList.contains('on'))d.click();
-    state.places=[];['Карелия','Рускеала','Сортавала'].forEach(addPlace);
+    state.places=[];['Петрозаводск','Рускеала','Сортавала'].forEach(addPlace);closeList();
     $('#month').value='июль';$('#year').value='2026';$('#days').value=5;
     $$('#howChips .chip').forEach(function(c){if(/Авто$/.test(c.textContent)&&!c.classList.contains('on'))c.click()});
     $$('#typeChips .chip')[2].click();
