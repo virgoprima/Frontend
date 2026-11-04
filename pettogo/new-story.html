@@ -56,7 +56,7 @@
   .page-head p{color:var(--ink-soft);max-width:560px;margin-top:10px}
 
   /* Stepper */
-  .stepper{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:#fff;margin-bottom:28px}
+  .stepper{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);background:#fff;margin-bottom:28px}
   .st{display:flex;align-items:center;gap:12px;padding:16px 18px;border-right:1px solid var(--line);cursor:pointer;text-align:left;border-top:0;border-bottom:3px solid transparent;border-left:0;background:none}
   .st:last-child{border-right:0}
   .st .n{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-size:17px;flex-shrink:0;color:var(--ink-soft)}
@@ -172,6 +172,17 @@
   .ob-head .rm{margin-left:auto;border:0;background:none;color:var(--ink-soft);cursor:pointer;font-size:13px;text-decoration:underline}
   .ob-body{padding:20px}
   .ob-body > * + *{margin-top:12px}
+  .pe-form{border:1px dashed #C9CDD4;border-radius:4px;padding:14px;margin-top:10px;display:flex;flex-direction:column;gap:10px;background:var(--paper)}
+  .pe-form input,.pe-form select{background:#fff}
+  .pe-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .pe-row input{flex:1;min-width:200px}
+  .pe-l{font-size:13.5px;color:var(--ink-soft)}
+  .pe-form .btn-add{align-self:flex-start;padding:9px 16px;font-size:13px}
+  .pe-err{font-size:13px;color:var(--coral-text)}
+  .pl-list{display:flex;flex-direction:column;gap:8px}
+  .pl-list .pl .x{border:0;background:none;color:var(--ink-soft);cursor:pointer;font-size:18px;margin-left:6px}
+  .lnk{display:inline-block;font-size:11.5px;background:var(--green-pale);color:var(--green);padding:1px 7px;border-radius:2px;margin-left:6px}
+  .pl.no{background:#FBEDE9;border-color:#F2D3CB}
   .places-list{display:flex;flex-direction:column;gap:8px}
   .pl{display:flex;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:4px;font-size:14.5px}
   .pl .t{font-size:18px}
@@ -259,7 +270,7 @@
   @media (max-width:700px){
     .wrap{padding:0 16px}
     .card{padding:24px 18px}
-    .stepper{grid-template-columns:repeat(4,1fr)}
+    .stepper{grid-template-columns:repeat(5,1fr)}
     .st{padding:12px 6px;flex-direction:column;gap:4px;text-align:center}
     .st small{display:none}
     .st b{font-size:12.5px}
@@ -296,8 +307,9 @@
   <nav class="stepper" id="stepper">
     <button class="st active" data-go="0"><span class="n">1</span><span><b>Основное</b><small>собака, куда, когда</small></span></button>
     <button class="st" data-go="1"><span class="n">2</span><span><b>История</b><small>заголовок, обложка, текст</small></span></button>
-    <button class="st" data-go="2"><span class="n">3</span><span><b>Детали</b><small>по желанию</small></span></button>
-    <button class="st" data-go="3"><span class="n">4</span><span><b>Итог</b><small>оценка и публикация</small></span></button>
+    <button class="st" data-go="2"><span class="n">3</span><span><b>Места</b><small>жильё и заведения</small></span></button>
+    <button class="st" data-go="3"><span class="n">4</span><span><b>Детали</b><small>по желанию</small></span></button>
+    <button class="st" data-go="4"><span class="n">5</span><span><b>Итог</b><small>оценка и публикация</small></span></button>
   </nav>
 
   <div class="layout">
@@ -398,14 +410,66 @@
         </div>
       </section>
 
-      <!-- ===== STEP 3 ===== -->
+      <!-- ===== STEP 3: МЕСТА ===== -->
       <section class="step-panel" data-step="2">
+        <h2 class="step-title">Места</h2>
+        <p class="step-sub">Где жили и куда заходили с собакой. Из ваших ответов собирается каталог пет-френдли мест по городам и странам — другим владельцам он сэкономит часы поиска.</p>
+
+        <div class="field" data-req="stay">
+          <div class="f-label"><b>Жили где-то вместе с собакой?</b><span class="req">обязательно</span></div>
+          <div class="chips single" id="stayAns">
+            <button class="chip" data-v="yes">Да, жили с собакой</button><button class="chip" data-v="no">Нет, без ночёвки с собакой</button>
+          </div>
+          <div class="pe" id="peStay" style="display:none">
+            <p class="hint" style="margin:14px 0 10px">Укажите название и ссылку: официальный сайт, страницу в соцсетях или объект на Островке, в Яндекс Путешествиях, Ozon Travel и других сервисах.</p>
+            <div class="pl-list"></div>
+            <div class="pe-form">
+              <div class="row2"><input type="text" class="pn" placeholder="Название: отель, гостевой дом, кемпинг…"><input type="url" class="pu" placeholder="Ссылка: сайт, VK, Telegram или страница на OTA"></div>
+              <div class="pe-row"><span class="pe-l">Оценка</span><span class="stars pr" data-n="0"></span><input type="text" class="pc" placeholder="Условия для собак: доплата, вес, можно ли оставить одну"></div>
+              <button class="btn btn-outline btn-add">+ Добавить жильё</button><span class="pe-err"></span>
+            </div>
+          </div>
+          <p class="err-msg">Ответьте на вопрос. Если жили с собакой — добавьте хотя бы одно жильё со ссылкой и оценкой</p>
+        </div>
+
+        <div class="field" data-req="visited">
+          <div class="f-label"><b>Куда заходили с собакой?</b><span class="req">обязательно</span></div>
+          <p class="hint" style="margin:0 0 10px">Кафе, рестораны, парки, пляжи, музеи, магазины, тропы. Ссылка по желанию — официальную информацию мы найдём сами.</p>
+          <div class="pe" id="peVisited">
+            <div class="pl-list"></div>
+            <div class="pe-form">
+              <div class="row"><select class="pt"><option value="🍽|Кафе / ресторан">🍽 Кафе / ресторан</option><option value="🌲|Парк / прогулка">🌲 Парк / прогулка</option><option value="🏖|Пляж / купание">🏖 Пляж / купание</option><option value="🏛|Музей / достопримечательность">🏛 Музей / достопримечательность</option><option value="🥾|Тропа / поход">🥾 Тропа / поход</option><option value="🛒|Магазин">🛒 Магазин</option><option value="🏥|Ветклиника">🏥 Ветклиника</option><option value="📍|Другое">📍 Другое</option></select><input type="text" class="pn" placeholder="Название"><input type="text" class="pcity" placeholder="Город или место" list="cityList"></div>
+              <input type="url" class="pu" placeholder="Ссылка (по желанию)">
+              <div class="pe-row"><span class="pe-l">Оценка</span><span class="stars pr" data-n="0"></span><input type="text" class="pc" placeholder="Как приняли: внутрь или на веранду, дали воду, есть ограничения"></div>
+              <button class="btn btn-outline btn-add">+ Добавить место</button><span class="pe-err"></span>
+            </div>
+          </div>
+          <p class="err-msg">Добавьте хотя бы одно место с оценкой</p>
+        </div>
+
+        <div class="field">
+          <div class="f-label"><b>Куда хотели зайти, но с собакой оказалось нельзя?</b><span class="opt">по желанию</span></div>
+          <p class="hint" style="margin:0 0 10px">Это тоже очень полезно: в каталоге такие места будут помечены «с собакой нельзя».</p>
+          <div class="pe" id="peDenied">
+            <div class="pl-list"></div>
+            <div class="pe-form">
+              <div class="row"><select class="pt"><option value="🍽|Кафе / ресторан">🍽 Кафе / ресторан</option><option value="🌲|Парк / прогулка">🌲 Парк / прогулка</option><option value="🏖|Пляж / купание">🏖 Пляж / купание</option><option value="🏛|Музей / достопримечательность">🏛 Музей / достопримечательность</option><option value="🥾|Тропа / поход">🥾 Тропа / поход</option><option value="🛒|Магазин">🛒 Магазин</option><option value="🏥|Ветклиника">🏥 Ветклиника</option><option value="📍|Другое">📍 Другое</option></select><input type="text" class="pn" placeholder="Название"><input type="text" class="pcity" placeholder="Город или место" list="cityList"></div>
+              <input type="url" class="pu" placeholder="Ссылка (по желанию)">
+              <div class="pe-row"><span class="pe-l">Оценка</span><span class="stars pr" data-n="0"></span><input type="text" class="pc" placeholder="Что произошло: не пустили, только маленьких, только на руках…"></div>
+              <button class="btn btn-outline btn-add">+ Добавить место</button><span class="pe-err"></span>
+            </div>
+          </div>
+        </div>
+        <datalist id="cityList"></datalist>
+      </section>
+
+      <!-- ===== STEP 3 ===== -->
+      <section class="step-panel" data-step="3">
         <h2 class="step-title">Детали</h2>
         <p class="step-sub">Всё здесь по желанию. Добавьте блоки, о которых есть что рассказать: это самое полезное для тех, кто поедет после вас.</p>
 
         <div class="blocks" id="blocks">
           <button class="blk" data-b="media"><span class="ico">📷</span><b>Фото и видео</b><small>галерея, ролики</small><span class="st-add">+ Добавить</span></button>
-          <button class="blk" data-b="places"><span class="ico">📍</span><b>Места по пути</b><small>ночёвки, кафе, прогулки</small><span class="st-add">+ Добавить</span></button>
           <button class="blk" data-b="route"><span class="ico">🗺</span><b>Маршрут</b><small>точки, тайминг, км</small><span class="st-add">+ Добавить</span></button>
           <button class="blk" data-b="budget"><span class="ico">💰</span><b>Бюджет</b><small>сколько потратили</small><span class="st-add">+ Добавить</span></button>
           <button class="blk" data-b="docs"><span class="ico">📄</span><b>Документы и правила</b><small>справки, транспорт, границы</small><span class="st-add">+ Добавить</span></button>
@@ -419,7 +483,7 @@
       </section>
 
       <!-- ===== STEP 4 ===== -->
-      <section class="step-panel" data-step="3">
+      <section class="step-panel" data-step="4">
         <h2 class="step-title">Итог</h2>
         <p class="step-sub">Честная оценка — то, за что истории доверяют.</p>
 
@@ -494,19 +558,19 @@
   $('#whoName').textContent=$('#pvName').textContent=USER.name;$('#whoA').textContent=$('#pvA').textContent=USER.name.charAt(0).toUpperCase();
   $('#logout').onclick=function(){try{localStorage.removeItem('pettogo_user')}catch(e){}location.href='index.html'};
   var step=0, panels=$$('.step-panel'), sts=$$('.st');
-  var state={dogs:[],places:[],how:[],type:'',verdict:'',cover:'',blocks:{}};
+  var state={dogs:[],places:[],how:[],type:'',verdict:'',cover:'',blocks:{},stayAns:'',stays:[],visited:[],denied:[]};
 
   /* ---------- Steps ---------- */
   function go(n){
-    step=Math.max(0,Math.min(3,n));
+    step=Math.max(0,Math.min(4,n));
     panels.forEach(function(p,i){p.classList.toggle('on',i===step)});
     sts.forEach(function(s,i){s.classList.toggle('active',i===step);s.classList.toggle('done',i<step)});
     $('#prevBtn').style.visibility=step?'visible':'hidden';
-    $('#nextBtn').innerHTML=step===3?'Опубликовать историю':'Далее <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>';
-    $('#nextBtn').className='btn '+(step===3?'btn-coral':'btn-green');
-    var tips=['Места ночёвки и прогулок — самое ценное для читателей. Их можно добавить на шаге «Детали».','Пишите от первого лица и о собаке тоже: как она вела себя, что ей понравилось. Такие истории читают до конца.','Даже два-три места с короткими комментариями превращают историю в готовый план поездки для кого-то другого.','«Да, но…» — тоже отличный ответ. Честные оговорки вызывают больше доверия, чем идеальная картинка.'];
+    $('#nextBtn').innerHTML=step===4?'Опубликовать историю':'Далее <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>';
+    $('#nextBtn').className='btn '+(step===4?'btn-coral':'btn-green');
+    var tips=['Жильё и места, куда пускают с собакой, — самое ценное для читателей. О них спросим на шаге «Места».','Пишите от первого лица и о собаке тоже: как она вела себя, что ей понравилось. Такие истории читают до конца.','Одна точная ссылка на жильё экономит другим часы поиска. А место, куда не пустили, предупредит следующих','Даже два-три места с короткими комментариями превращают историю в готовый план поездки для кого-то другого.','«Да, но…» — тоже отличный ответ. Честные оговорки вызывают больше доверия, чем идеальная картинка.'];
     $('#tipTxt').textContent=tips[step];
-    if(step===3) preview();
+    if(step===4) preview();
     window.scrollTo({top:$('#stepper').offsetTop-90,behavior:'smooth'});
   }
   sts.forEach(function(s){s.onclick=function(){go(+s.dataset.go)}});
@@ -514,8 +578,8 @@
   $('#nextBtn').onclick=function(){
     var bad=validate(step);
     if(bad.length){bad[0].scrollIntoView({behavior:'smooth',block:'center'});return}
-    if(step===3){
-      var all=[0,1,2,3].filter(function(s){return validate(s).length});
+    if(step===4){
+      var all=[0,1,2,3,4].filter(function(s){return validate(s).length});
       if(all.length){go(all[0]);setTimeout(function(){validate(all[0])},50);return}
       $('#modal').classList.add('on');return;
     }
@@ -527,6 +591,8 @@
   var checks={
     dog:function(){return state.dogs.length>0},
     where:function(){return state.places.length>0},
+    stay:function(){return state.stayAns==='no'||(state.stayAns==='yes'&&state.stays.length>0)},
+    visited:function(){return state.visited.length>0},
     when:function(){return +$('#days').value>0},
     how:function(){return state.how.length>0},
     type:function(){return !!state.type},
@@ -688,6 +754,43 @@
     $('.places-list',el).appendChild(d);
   }
 
+  /* ---------- Места: проживание, куда заходили, куда нельзя ---------- */
+  function linkKind(u){
+    var s=u.toLowerCase();
+    if(/ostrovok/.test(s))return 'Островок';
+    if(/travel\.yandex|yandex\.ru\/travel/.test(s))return 'Яндекс Путешествия';
+    if(/ozon\.ru\/travel|ozon\.travel/.test(s))return 'Ozon Travel';
+    if(/(^|\/\/|\.)vk\.(com|ru)/.test(s))return 'VK';
+    if(/t\.me\//.test(s))return 'Telegram';
+    if(/booking|airbnb|sutochno|101hotels|tvil|avito/.test(s))return 'Сервис бронирования';
+    return 'Сайт';
+  }
+  function validUrl(u){return /^(https?:\/\/)?[\w\-]+(\.[\w\-]+)+(\/\S*)?$/i.test(u.trim())}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function renderPE(id,key){
+    var el=$('#'+id),list=$('.pl-list',el);
+    list.innerHTML=state[key].map(function(p,i){
+      return '<div class="pl'+(key==='denied'?' no':'')+'"><span class="t">'+p.ico+'</span><span><b style="font-weight:400">'+esc(p.name)+'</b>'+(p.url?'<span class="lnk">'+linkKind(p.url)+'</span>':'')+'<small>'+[p.type,p.city,p.c].filter(Boolean).map(esc).join(' · ')+'</small></span><span class="r">'+'★'.repeat(p.r)+'</span><button class="x" data-i="'+i+'" title="Убрать">×</button></div>';
+    }).join('');
+    $$('.x',list).forEach(function(b){b.onclick=function(){state[key].splice(+b.dataset.i,1);renderPE(id,key);update()}});
+  }
+  function initPE(id,key,opts){
+    var el=$('#'+id),fm=$('.pe-form',el),st=$('.pr',fm);stars(st);
+    var city=$('.pcity',fm);if(city)city.addEventListener('focus',function(){$('#cityList').innerHTML=state.places.map(function(p){return '<option value="'+esc(p)+'">'}).join('')});
+    $('.btn-add',fm).onclick=function(){
+      var name=$('.pn',fm).value.trim(),url=$('.pu',fm).value.trim(),r=+st.dataset.n,err=$('.pe-err',fm);
+      if(!name){err.textContent='Укажите название';$('.pn',fm).focus();return}
+      if(opts.needLink&&!url){err.textContent='Добавьте ссылку: сайт, соцсеть или страницу на OTA';$('.pu',fm).focus();return}
+      if(url&&!validUrl(url)){err.textContent='Ссылка выглядит неправильно';$('.pu',fm).focus();return}
+      if(!r){err.textContent='Поставьте оценку от 1 до 5';return}
+      var tp=$('.pt',fm),tv=tp?tp.value.split('|'):['🏨','Жильё'];
+      state[key].push({ico:tv[0],type:tv[1],name:name,city:city?city.value.trim():'',url:url,r:r,c:$('.pc',fm).value.trim()});
+      $('.pn',fm).value='';$('.pu',fm).value='';$('.pc',fm).value='';if(city)city.value='';st.dataset.n=0;stars(st);err.textContent='';
+      renderPE(id,key);clearErr(key==='stays'?'stay':key);update();saved();
+    };
+  }
+  $$('#stayAns .chip').forEach(function(c){c.onclick=function(){$$('#stayAns .chip').forEach(function(x){x.classList.remove('on')});c.classList.add('on');state.stayAns=c.dataset.v;$('#peStay').style.display=state.stayAns==='yes'?'':'none';clearErr('stay');update();saved()}});
+
   /* ---------- Stars ---------- */
   function stars(s){
     s.innerHTML='';for(var i=1;i<=5;i++){(function(i){var b=document.createElement('button');b.type='button';b.textContent='★';b.classList.toggle('on',i<=+s.dataset.n);b.onclick=function(){s.dataset.n=i;stars(s);update()};s.appendChild(b)})(i)}
@@ -698,15 +801,15 @@
   $$('.vd').forEach(function(v){v.onclick=function(){$$('.vd').forEach(function(x){x.classList.remove('on')});v.classList.add('on');state.verdict=v.dataset.v;clearErr('verdict');update()}});
 
   /* ---------- Completeness ---------- */
-  var REQ=[['dog','Собака'],['where','Куда ездили'],['when','Когда и сколько дней'],['how','Как добирались'],['type','Тип поездки'],['title','Заголовок'],['cover','Обложка'],['text','Рассказ от 500 знаков'],['verdict','Поехали бы снова?']];
-  var OPT=[['places','Места по пути'],['media','Фото и видео'],['route','Маршрут'],['budget','Бюджет']];
+  var REQ=[['dog','Собака'],['where','Куда ездили'],['when','Когда и сколько дней'],['how','Как добирались'],['type','Тип поездки'],['stay','Проживание с собакой'],['visited','Куда заходили с собакой'],['title','Заголовок'],['cover','Обложка'],['text','Рассказ от 500 знаков'],['verdict','Поехали бы снова?']];
+  var OPT=[['denied','Куда не пустили'],['media','Фото и видео'],['route','Маршрут'],['budget','Бюджет']];
   function update(){
     var r=REQ.filter(function(x){return checks[x[0]]()}).length;
     var o=Object.keys(state.blocks).length;
     var pct=Math.round(r/REQ.length*70+Math.min(o,5)/5*30);
     $('#meter').style.width=pct+'%';$('#meterPct').textContent=pct+'%';
     $('#meterHint').textContent=r<REQ.length?'Обязательных: '+r+' из '+REQ.length:(o<3?'Можно публиковать! Добавьте детали':'Отличная, полная история');
-    $('#checklist').innerHTML='<li class="grp">Обязательно</li>'+REQ.map(function(x){return '<li class="'+(checks[x[0]]()?'ok':'')+'">'+x[1]+'</li>'}).join('')+'<li class="grp">Полезно добавить</li>'+OPT.map(function(x){return '<li class="'+(state.blocks[x[0]]?'ok':'')+'">'+x[1]+'</li>'}).join('');
+    $('#checklist').innerHTML='<li class="grp">Обязательно</li>'+REQ.map(function(x){return '<li class="'+(checks[x[0]]()?'ok':'')+'">'+x[1]+'</li>'}).join('')+'<li class="grp">Полезно добавить</li>'+OPT.map(function(x){return '<li class="'+((x[0]==='denied'?state.denied.length:state.blocks[x[0]])?'ok':'')+'">'+x[1]+'</li>'}).join('');
   }
 
   /* ---------- Preview ---------- */
@@ -717,7 +820,7 @@
     $('#pvImg').style.backgroundImage=state.cover?'url("'+state.cover+'")':'';
     $('#pvDog').textContent=state.dogs.length?state.dogs.join(' и '):'Собака не выбрана';
     var b=[];if(state.type)b.push(state.type);state.how.forEach(function(h){b.push(h)});
-    if(state.blocks.route)b.push('Есть маршрут');if(state.blocks.budget)b.push('Есть бюджет');if(state.blocks.places)b.push('Места на карте');
+    if(state.blocks.route)b.push('Есть маршрут');if(state.blocks.budget)b.push('Есть бюджет');if(state.visited.length+state.stays.length)b.push('Мест с собакой: '+(state.visited.length+state.stays.length));if(state.denied.length)b.push('Куда нельзя: '+state.denied.length);
     if(state.verdict)b.push('Поехали бы снова: '+state.verdict);
     $('#pvBadges').innerHTML=b.map(function(x){return '<span class="badge">'+x+'</span>'}).join('');
   }
@@ -735,17 +838,18 @@
     cntStory();
     var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9D3DF"/><stop offset="1" stop-color="#F3E3D3"/></linearGradient></defs><rect width="400" height="300" fill="url(#s)"/><path d="M0 190 L60 120 L110 160 L170 90 L240 170 L300 120 L400 180 V300 H0Z" fill="#5E6F8A"/><path d="M0 220 Q200 200 400 225 V300 H0Z" fill="#8FA3B8"/><path d="M0 250 Q200 235 400 255 V300 H0Z" fill="#24324A"/><circle cx="310" cy="70" r="22" fill="#E06A4E" opacity=".8"/></svg>';
     setCover('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg));
-    if(!state.blocks.places)toggleBlock('places',true);
-    var pe=$('#ob-places');$('.places-list',pe).innerHTML='';
-    addPl(pe,'🏨','Ночёвка','Гостевой дом «Ладожские шхеры»',5,'с собакой без доплаты, свой выход к воде');
-    addPl(pe,'🍽','Кафе / ресторан','Кафе «Калитка», Сортавала',4,'пускают на веранду, дали миску воды');
-    addPl(pe,'🌲','Прогулка / парк','Горный парк «Рускеала»',4,'с собакой на поводке можно, вход по билету');
+    $$('#stayAns .chip')[0].click();
+    state.stays=[{ico:'🏨',type:'Жильё',name:'Гостевой дом «Ладожские шхеры» (демо)',city:'',url:'https://ostrovok.ru/hotel/russia/sortavala/',r:5,c:'с собакой без доплаты, свой выход к воде'}];
+    state.visited=[{ico:'🏛',type:'Музей / достопримечательность',name:'Горный парк «Рускеала»',city:'Рускеала',url:'https://ruskeala.ru',r:4,c:'гуляли по тропам вокруг каньона на поводке'},{ico:'🍽',type:'Кафе / ресторан',name:'Кафе «Калитка» (демо)',city:'Сортавала',url:'',r:4,c:'пустили на веранду, дали миску воды'}];
+    state.denied=[{ico:'🏛',type:'Музей / достопримечательность',name:'Подземная экскурсия (демо)',city:'Рускеала',url:'',r:2,c:'с собакой нельзя, ждали по очереди'}];
+    renderPE('peStay','stays');renderPE('peVisited','visited');renderPE('peDenied','denied');
     if(!state.blocks.budget)toggleBlock('budget',true);
     var be=$('#ob-budget'),v=[24000,9000,15000,0,3000];$$('.bi',be).forEach(function(i,k){i.value=v[k];i.dispatchEvent(new Event('input'))});
     $$('.vd')[0].click();$('#verdictTxt').value='Уже планируем зимнюю Карелию';
     update();saved();
   };
 
+  initPE('peStay','stays',{needLink:true});initPE('peVisited','visited',{});initPE('peDenied','denied',{});
   update();
 })();
 </script>

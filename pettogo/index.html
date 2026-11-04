@@ -227,6 +227,33 @@
     .cta .car{left:24px;width:140px}
   }
 
+
+  /* Places catalog block */
+  .places-block{border-top:1px solid var(--line);background:var(--green-mist)}
+  .pl-geo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border:1px solid var(--line);background:#fff;margin-bottom:28px}
+  .pl-geo .co{padding:24px 28px;border-right:1px solid var(--line)}
+  .pl-geo .co:last-child{border-right:0}
+  .pl-geo h3{font-size:28px;color:var(--green);margin-bottom:14px;display:flex;align-items:baseline;gap:10px}
+  .pl-geo h3 small{font-family:var(--sans);font-size:13px;color:var(--ink-soft)}
+  .pl-cities{display:flex;flex-wrap:wrap;gap:8px}
+  .pl-cities a{border:1px solid var(--line);border-radius:40px;padding:7px 15px;font-size:14.5px;transition:all .15s}
+  .pl-cities a:hover{border-color:var(--green);color:var(--green)}
+  .pl-cities a small{color:var(--ink-soft);margin-left:4px}
+  .pl-top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .pl-card{background:#fff;border:1px solid var(--line);padding:20px 22px;display:flex;flex-direction:column;gap:8px}
+  .pl-card .h{display:flex;gap:12px;align-items:flex-start}
+  .pl-card .ic{font-size:24px;line-height:1}
+  .pl-card h4{font-family:var(--serif);font-size:23px;font-weight:500;line-height:1.15}
+  .pl-card .tp{font-size:12.5px;color:var(--ink-soft)}
+  .pl-card .rt{margin-left:auto;font-family:var(--serif);font-size:26px;font-weight:600;color:var(--green);line-height:1;text-align:right}
+  .pl-card .rt small{display:block;font-family:var(--sans);font-size:11.5px;font-weight:400;color:var(--coral)}
+  .pl-card .pol{align-self:flex-start;font-size:12.5px;padding:3px 10px;border-radius:2px;background:#EAF3EC;color:#4F8A60}
+  .pl-card p{font-size:14.5px;color:var(--ink-soft)}
+  .pl-card .off{font-size:12.5px;color:var(--ink-soft)}
+  .pl-card .off a{color:var(--green);text-decoration:underline;text-underline-offset:3px}
+  @media (max-width:1020px){.pl-top{grid-template-columns:1fr 1fr}}
+  @media (max-width:640px){.pl-geo,.pl-top{grid-template-columns:1fr}.pl-geo .co{border-right:0;border-bottom:1px solid var(--line)}}
+
   /* ===== Editor ===== */
   .editor-bar{position:fixed;right:20px;bottom:20px;z-index:100;display:flex;gap:6px;background:var(--ink);padding:6px;border-radius:6px;box-shadow:0 12px 40px rgba(0,0,0,.25)}
   .editor-bar button{border:0;background:transparent;color:#fff;font:400 14px var(--sans);padding:10px 16px;border-radius:4px;cursor:pointer;white-space:nowrap}
@@ -267,6 +294,7 @@
       </a>
       <nav class="menu">
         <a href="#stories">Истории</a>
+        <a href="places.html">Места</a>
         <a href="#manifest">Это можно</a>
         <a href="#how">Как это работает</a>
         <a href="planner.html">Конструктор поездки</a>
@@ -439,6 +467,30 @@
   </section>
 
   <!-- ===== 4. Как это работает ===== -->
+  <!-- ===== Каталог пет-френдли мест ===== -->
+  <section class="block places-block" id="places">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>Пет-френдли места</h2>
+          <p>Жильё, кафе, парки и пляжи из историй наших авторов — с оценками и пометкой, куда с собакой нельзя. Собраны по странам и городам.</p>
+        </div>
+        <a href="places.html" class="btn btn-pale">Весь каталог <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"></path></svg></a>
+      </div>
+      <div class="pl-geo">
+        <div class="co"><h3>Россия<small>13 мест · 6 городов</small></h3>
+          <div class="pl-cities"><a href="places.html?city=Сортавала">Сортавала<small>3</small></a><a href="places.html?city=Рускеала">Рускеала<small>2</small></a><a href="places.html?city=Суздаль">Суздаль<small>2</small></a><a href="places.html?city=Звенигород">Звенигород<small>2</small></a><a href="places.html?city=Геленджик">Геленджик<small>2</small></a><a href="places.html?city=Чемал">Чемал<small>2</small></a></div></div>
+        <div class="co"><h3>Грузия<small>2 места · 1 город</small></h3>
+          <div class="pl-cities"><a href="places.html?city=Тбилиси">Тбилиси<small>2</small></a></div></div>
+      </div>
+      <div class="pl-top">
+        <a class="pl-card" href="places.html?city=Сортавала"><div class="h"><span class="ic">🏨</span><div><h4>Гостевой дом «Ладожские шхеры»</h4><span class="tp">Жильё · Сортавала · демо</span></div><span class="rt">5,0<small>★★★★★</small></span></div><span class="pol">🐾 можно, без доплаты</span><p>«Свой выход к воде, собака жила с нами в номере»</p></a>
+        <a class="pl-card" href="places.html?city=Рускеала"><div class="h"><span class="ic">🌲</span><div><h4>Горный парк «Рускеала»</h4><span class="tp">Парк · Рускеала · 3 истории</span></div><span class="rt">4,3<small>★★★★☆</small></span></div><span class="pol">🐾 можно на поводке</span><p>«Гуляли по тропам вокруг каньона»</p><span class="off">Официально: ruskeala.ru</span></a>
+        <a class="pl-card" href="places.html?city=Геленджик"><div class="h"><span class="ic">🏖</span><div><h4>Дикий пляж за маяком</h4><span class="tp">Пляж · Геленджик · демо</span></div><span class="rt">4,6<small>★★★★★</small></span></div><span class="pol">🐾 можно</span><p>«Лабрадоры купались весь вечер»</p></a>
+      </div>
+    </div>
+  </section>
+
   <section class="block how" id="how">
     <div class="wrap">
       <div class="sec-head">
@@ -506,6 +558,7 @@
           <a href="#manifest">Это можно</a>
           <a href="#how">Как это работает</a>
           <a href="planner.html">Конструктор поездки</a>
+          <a href="places.html">Пет-френдли места</a>
         </div>
         <div>
           <h4>Авторам</h4>
