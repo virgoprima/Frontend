@@ -22,6 +22,7 @@
     '.pt-user-menu .out{border-top:1px solid var(--line,#E5E2DC);margin-top:4px;color:var(--coral-text,#C4543A)}' +
     '.pt-login{display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:4px;background:var(--green,#24324A);color:#fff !important;font:400 14px var(--sans,Jost,Arial,sans-serif)}' +
     '.pt-login:hover{background:var(--green-dark,#1A2538)}' +
+    '@media (max-width:1020px){.nav>[data-user-slot],.nav>.pt-user{margin-left:auto}}' +
     '@media (max-width:640px){.pt-user-btn .nm,.pt-user-btn svg{display:none}.pt-user-btn{padding:3px;height:38px}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
