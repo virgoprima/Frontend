@@ -55,8 +55,9 @@
   .logo-mark{width:62px;height:auto;display:block}
   .logo-text{font-family:var(--serif);font-size:30px;font-weight:500;color:var(--green);line-height:1}
   .logo-text small{display:block;font-family:var(--sans);font-size:10.5px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
-  .menu{display:flex;gap:30px;font-size:15px;font-weight:400;margin-left:auto}
-  .menu a{position:relative;padding:4px 0}
+  .menu{display:flex;gap:24px;font-size:15px;font-weight:400;margin-left:auto}
+  .menu a{position:relative;padding:4px 0;white-space:nowrap}
+  @media (max-width:1240px){.menu{gap:18px;font-size:14.5px}}
   .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:1px;background:var(--coral);transition:right .25s}
   .menu a:hover{color:var(--green)}
   .menu a:hover::after{right:0}
@@ -303,7 +304,7 @@
       <div class="icon-btns">
         <a href="#" class="icon-btn" title="Поиск"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></a>
         <a href="#" class="icon-btn" title="Избранное"><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.6 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"></path></svg></a>
-        <a href="auth.html?next=index.html" class="icon-btn" title="Профиль"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20.5c1.2-3.8 4-5.6 7.5-5.6s6.3 1.8 7.5 5.6"></path></svg></a>
+        <a href="auth.html?next=index.html" class="icon-btn" title="Профиль" data-user-slot data-keep-guest><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20.5c1.2-3.8 4-5.6 7.5-5.6s6.3 1.8 7.5 5.6"></path></svg></a>
       </div>
     </div>
   </div>
@@ -721,4 +722,5 @@
 })();
 </script>
 
+<script src="user.js"></script>
 </body></html>
