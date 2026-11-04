@@ -42,10 +42,13 @@
   .stats div{font-size:13px;color:var(--ink-soft)}
   .stats b{display:block;font-family:var(--serif);font-size:38px;font-weight:500;color:var(--green);line-height:1}
 
-  .filters{background:#fff;border:1px solid var(--line);padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+  .filters{background:#fff;border:1px solid var(--line);padding:14px 16px;display:grid;grid-template-columns:minmax(200px,1.4fr) repeat(4,minmax(0,1fr)) auto;gap:10px;align-items:center}
+  .filters select{width:100%;min-width:0;cursor:pointer}
+  .filters select.on{border-color:var(--green);background:var(--green-pale);color:var(--green)}
+  .reset{border:0;background:none;color:var(--ink-soft);font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;white-space:nowrap}
   .f-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
   .f-row .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);width:104px;white-space:nowrap}
-  .search{flex:1;min-width:220px;border:1px solid var(--line);background:var(--paper);border-radius:4px;padding:10px 14px;outline:none}
+  .search{width:100%;min-width:0;border:1px solid var(--line);background:var(--paper);border-radius:4px;padding:10px 14px;outline:none}
   .search:focus{border-color:var(--green);background:#fff}
   select{border:1px solid var(--line);background:var(--paper);border-radius:4px;padding:10px 12px;outline:none}
   .chip{border:1px solid var(--line);background:#fff;border-radius:40px;padding:6px 14px;font-size:14px;cursor:pointer;transition:all .15s}
@@ -99,7 +102,8 @@
     .layout{grid-template-columns:1fr}
     aside{position:static;order:-1}
     .side:not(.dark){display:none}
-    .filters{position:static}
+    .filters{grid-template-columns:1fr 1fr}
+    .filters .search{grid-column:1/-1}
   }
   @media (max-width:640px){
     .wrap{padding:0 16px}
@@ -133,11 +137,12 @@
   </div>
 
   <div class="filters">
-    <div class="f-row"><input class="search" id="q" placeholder="Название или город"><select id="country"><option value="">Все страны</option></select></div>
-    <div class="f-row"><span class="lbl">Город</span><div id="cities" style="display:flex;gap:8px;flex-wrap:wrap"></div></div>
-    <div class="f-row"><span class="lbl">Тип</span><div id="types" style="display:flex;gap:8px;flex-wrap:wrap"></div></div>
-    <div class="f-row"><span class="lbl">С собакой</span><div id="pols" style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="chip" data-v="ok">можно</button><button class="chip" data-v="warn">с ограничениями</button><button class="chip" data-v="no">нельзя</button></div></div>
+    <input class="search" id="q" placeholder="Название или город">
+    <select id="country" aria-label="Страна"><option value="">Все страны</option></select>
+    <select id="city" aria-label="Город"><option value="">Все города</option></select>
+    <select id="type" aria-label="Тип места"><option value="">Все типы мест</option></select>
+    <select id="pol" aria-label="С собакой"><option value="">С собакой: любые</option><option value="ok">Можно</option><option value="warn">С ограничениями</option><option value="no">Нельзя</option></select>
+    <button class="reset" id="reset" style="display:none">Сбросить</button>
   </div>
 
   <div class="layout">
@@ -195,15 +200,20 @@
   $('#sPlaces').textContent=P.length;$('#sCities').textContent=Object.keys(cities).length;$('#sCountries').textContent=countries.length;
   $('#country').innerHTML+=countries.map(function(c){return '<option>'+c+'</option>'}).join('');
   function drawCities(){
-    var cs=Object.keys(cities).filter(function(c){return !f.country||P.some(function(p){return p.city===c&&p.country===f.country})});
-    $('#cities').innerHTML='<button class="chip'+(f.city?'':' on')+'" data-v="">Все</button>'+cs.map(function(c){return '<button class="chip'+(f.city===c?' on':'')+'" data-v="'+c+'">'+c+'<small>'+cities[c]+'</small></button>'}).join('');
-    $$('#cities .chip').forEach(function(b){b.onclick=function(){f.city=b.dataset.v;drawCities();draw()}});
+    var h='<option value="">Все города</option>';
+    countries.filter(function(co){return !f.country||co===f.country}).forEach(function(co){
+      var cs=[];P.forEach(function(p){if(p.country===co&&cs.indexOf(p.city)<0)cs.push(p.city)});
+      h+='<optgroup label="'+co+'">'+cs.map(function(c){return '<option value="'+c+'"'+(f.city===c?' selected':'')+'>'+c+' ('+cities[c]+')</option>'}).join('')+'</optgroup>';
+    });
+    $('#city').innerHTML=h;
   }
-  $('#types').innerHTML='<button class="chip on" data-v="">Все</button>'+Object.keys(T).map(function(k){return '<button class="chip" data-v="'+k+'">'+T[k][0]+' '+T[k][1]+'</button>'}).join('');
-  $$('#types .chip').forEach(function(b){b.onclick=function(){$$('#types .chip').forEach(function(x){x.classList.remove('on')});b.classList.add('on');f.type=b.dataset.v;draw()}});
-  $$('#pols .chip').forEach(function(b){b.onclick=function(){var on=b.classList.contains('on');$$('#pols .chip').forEach(function(x){x.classList.remove('on')});if(!on)b.classList.add('on');f.pol=on?'':b.dataset.v;draw()}});
-  $('#country').onchange=function(){f.country=this.value;f.city='';drawCities();draw()};
+  $('#type').innerHTML+=Object.keys(T).map(function(k){return '<option value="'+k+'">'+T[k][0]+' '+T[k][1]+'</option>'}).join('');
+  $('#country').onchange=function(){f.country=this.value;if(f.city&&!P.some(function(p){return p.city===f.city&&p.country===f.country}))f.city='';drawCities();draw()};
+  $('#city').onchange=function(){f.city=this.value;if(f.city){var p=P.filter(function(x){return x.city===f.city})[0];f.country=p.country;$('#country').value=f.country;drawCities()}draw()};
+  $('#type').onchange=function(){f.type=this.value;draw()};
+  $('#pol').onchange=function(){f.pol=this.value;draw()};
   $('#q').oninput=function(){f.q=this.value.trim().toLowerCase();draw()};
+  $('#reset').onclick=function(){f={country:'',city:'',type:'',pol:'',q:''};$('#q').value='';['country','type','pol'].forEach(function(id){$('#'+id).value=''});drawCities();draw()};
 
   function card(p){
     var off=p.official&&p.official.real
@@ -215,6 +225,8 @@
     return '<article class="pc"><div class="top"><span class="ic">'+T[p.t][0]+'</span><div><h4>'+p.n+(p.demo?' <span style="font-family:var(--sans);font-size:11px;color:var(--ink-soft)">демо</span>':'')+'</h4><span class="tp">'+T[p.t][1]+' · '+p.city+'</span></div><div class="rt"><b>'+p.r.toFixed(1).replace('.',',')+'</b><span>'+stars+'</span><small>'+p.c+' '+plural(p.c,'история','истории','историй')+'</small></div></div><span class="pol '+p.pol+'">🐾 '+p.pt+'</span><div class="quote">«'+p.q+'»<a href="index.html#stories">из истории «'+p.story+'»</a></div>'+off+book+'</article>';
   }
   function draw(){
+    ['country','city','type','pol'].forEach(function(id){$('#'+id).classList.toggle('on',!!$('#'+id).value)});
+    $('#reset').style.display=(f.country||f.city||f.type||f.pol||f.q)?'':'none';
     var list=P.filter(function(p){return (!f.country||p.country===f.country)&&(!f.city||p.city===f.city)&&(!f.type||p.t===f.type)&&(!f.pol||p.pol===f.pol)&&(!f.q||(p.n+' '+p.city+' '+p.region).toLowerCase().indexOf(f.q)>-1)});
     if(!list.length){$('#list').innerHTML='<div class="empty">Таких мест пока нет. Расскажите о своей поездке — и они появятся.</div>';return}
     var h='';
@@ -231,7 +243,7 @@
     $('#list').innerHTML=h;
     $$('[data-book]').forEach(function(b){b.onclick=function(){toast('Переход на '+b.dataset.book+' к этому объекту. В рабочей версии — с ценами на ваши даты')}});
   }
-  var cityParam=(new URLSearchParams(location.search)).get('city');if(cityParam&&cities[cityParam])f.city=cityParam;
+  var cityParam=(new URLSearchParams(location.search)).get('city');if(cityParam&&cities[cityParam]){f.city=cityParam;f.country=P.filter(function(p){return p.city===cityParam})[0].country;$('#country').value=f.country}
   $$('[data-toast]').forEach(function(b){b.onclick=function(){toast(b.dataset.toast)}});
   drawCities();draw();
 })();
